@@ -186,7 +186,10 @@ export type Route =
   | { kind: "new"; cwd: string | null }
   | { kind: "thread"; sessionId: string }
   | { kind: "usage" }
-  | { kind: "settings" };
+  | { kind: "settings" }
+  | { kind: "labs" }
+  | { kind: "bots" }
+  | { kind: "scout" };
 
 export interface ThreadState {
   load: "idle" | "loading" | "ready" | "error";

@@ -1,0 +1,9 @@
+{
+  "name": "cheezies-bot",
+  "displayName": "Cheezies Gourmet Bot",
+  "avatar": "🧀",
+  "description": "Cheezies Gourmet food truck and catering operations, menu engineering, and Vite deployment workflows.",
+  "enabled": true,
+  "schedule": "0 10 * * *",
+  "tools": ["read_file", "write_file", "run_command"]
+}

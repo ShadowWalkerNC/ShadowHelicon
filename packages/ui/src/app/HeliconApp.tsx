@@ -9,6 +9,10 @@ import { SettingsPage } from "../components/settings/SettingsPage.js";
 import { Sidebar } from "../components/sidebar/Sidebar.js";
 import { ThreadView } from "../components/thread/ThreadView.js";
 import { UsagePage } from "../components/usage/UsagePage.js";
+import { PermanentUsageBar } from "../components/usage/PermanentUsageBar.js";
+import { LabsPage } from "../pages/LabsPage.js";
+import { BotsPage } from "../pages/BotsPage.js";
+import { ScoutPage } from "../pages/ScoutPage.js";
 import { TooltipProvider } from "../components/ui/overlays.js";
 import { cn, isMac } from "../components/ui/primitives.js";
 import { Toasts } from "../components/ui/Toasts.js";
@@ -117,6 +121,12 @@ function RouteAnnouncer() {
       announce("Settings");
     } else if (route.kind === "usage") {
       announce("Usage");
+    } else if (route.kind === "labs") {
+      announce("Labs");
+    } else if (route.kind === "bots") {
+      announce("Bots");
+    } else if (route.kind === "scout") {
+      announce("Scout");
     } else {
       announce("New thread");
     }
@@ -366,6 +376,7 @@ function Shell() {
       <main className="flex min-w-0 flex-1 flex-col">
         <Main />
       </main>
+      <PermanentUsageBar />
     </div>
   );
 }
@@ -383,6 +394,15 @@ function Main() {
   }
   if (route.kind === "settings") {
     return <SettingsPage />;
+  }
+  if (route.kind === "labs") {
+    return <LabsPage />;
+  }
+  if (route.kind === "bots") {
+    return <BotsPage />;
+  }
+  if (route.kind === "scout") {
+    return <ScoutPage />;
   }
   if (route.kind === "thread") {
     return <ThreadView key={route.sessionId} sessionId={route.sessionId} />;

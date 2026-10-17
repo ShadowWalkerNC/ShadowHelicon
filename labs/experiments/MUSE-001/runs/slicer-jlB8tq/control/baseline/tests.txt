@@ -1,0 +1,51 @@
+✖ exclusive end (3.1701ms)
+✖ negative clamp (0.1829ms)
+✔ empty (0.3519ms)
+✔ large end (0.3239ms)
+✔ empty reversed (0.2629ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 3
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 14.569
+
+✖ failing tests:
+
+test at acceptance.test.mjs:3:1
+✖ exclusive end (3.1701ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+      1,
+      2,
+  +   3
+    ]
+  
+      at TestContext.<anonymous> (file:///C:/Users/white/Documents/GitHub/MuseAiBots/experiments/MUSE-001/runs/slicer-jlB8tq/control/baseline/acceptance.test.mjs:3:33)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [Array],
+    expected: [Array],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at acceptance.test.mjs:4:1
+✖ negative clamp (0.1829ms)
+  Error: negative
+      at sliceRange (file:///C:/Users/white/Documents/GitHub/MuseAiBots/experiments/MUSE-001/runs/slicer-jlB8tq/scratch/src/slicer.ts:2:33)
+      at TestContext.<anonymous> (file:///C:/Users/white/Documents/GitHub/MuseAiBots/experiments/MUSE-001/runs/slicer-jlB8tq/control/baseline/acceptance.test.mjs:4:44)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)

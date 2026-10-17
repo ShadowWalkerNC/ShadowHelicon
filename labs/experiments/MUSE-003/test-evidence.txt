@@ -1,0 +1,13 @@
+✔ discovery/status/events explicitly simulated and versioned (1.5838ms)
+✔ unsupported writes and unknown devices denied before read callback (0.3239ms)
+✔ permissions are server-owned and denied before callback (0.1873ms)
+✔ malformed version/envelope/device ID rejected (0.9984ms)
+✔ callers cannot mutate subsequent device state (0.1765ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 726.7191

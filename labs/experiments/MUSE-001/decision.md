@@ -1,0 +1,2 @@
+# MUSE-001 decision
+INCONCLUSIVE / BLOCKED: Muse provider quota prevented coding execution. No task VALIDATED; no capability CANDIDATE or production adoption. Resume only after provider availability returns, using fresh scratch trials and review of context/isolation limitations. Do not bypass permissions or purchase capacity automatically. Local reference/harness correctness evidence is separate from agent capability evidence.

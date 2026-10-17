@@ -1,0 +1,17 @@
+{
+  "experimentId": "MUSE-002",
+  "status": "EXPERIMENT",
+  "verification": "PASS",
+  "scope": "local simulation only",
+  "testsPassed": 5,
+  "testsFailed": 0,
+  "nodeVersion": "v24.19.0",
+  "timestamp": "2026-10-03T23:12:39.0366416Z",
+  "command": "node --test implementation/connector.test.mjs",
+  "providerAcceptance": "NOT RUN",
+  "hardwareAcceptance": "NOT RUN",
+  "productionPromotion": "NOT APPROVED",
+  "tokens": "unknown",
+  "cost": "unknown",
+  "evidence": "test-evidence.txt"
+}

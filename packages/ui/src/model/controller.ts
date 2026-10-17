@@ -139,6 +139,12 @@ export function routeToHash(route: Route): string {
       return "#/usage";
     case "settings":
       return "#/settings";
+    case "labs":
+      return "#/labs";
+    case "bots":
+      return "#/bots";
+    case "scout":
+      return "#/scout";
   }
 }
 
@@ -149,6 +155,15 @@ export function hashToRoute(hash: string): Route {
   }
   if (h === "/settings") {
     return { kind: "settings" };
+  }
+  if (h === "/labs") {
+    return { kind: "labs" };
+  }
+  if (h === "/bots") {
+    return { kind: "bots" };
+  }
+  if (h === "/scout") {
+    return { kind: "scout" };
   }
   const thread = h.match(/^\/t\/(.+)$/);
   if (thread) {

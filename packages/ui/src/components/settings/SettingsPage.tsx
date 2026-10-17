@@ -338,9 +338,19 @@ export function SettingsPage() {
   const busy = updates?.status === "checking" || updates?.status === "downloading" || updates?.status === "installing";
   const drag = useOverlayDragProps();
   const collapsed = useApp((s) => s.prefs.sidebarCollapsed);
+  const [joshUrl, setJoshUrl] = useState("");
+  const [forgeUrl, setForgeUrl] = useState("");
+  const [integrationsSaved, setIntegrationsSaved] = useState(false);
 
   useEffect(() => {
     void controller.loadAccounts();
+    fetch("/api/settings/integrations")
+      .then((r) => r.json())
+      .then((d) => {
+        if (d.joshPolicyUrl) setJoshUrl(d.joshPolicyUrl);
+        if (d.forgeSatchelUrl) setForgeUrl(d.forgeSatchelUrl);
+      })
+      .catch(() => undefined);
   }, [controller]);
 
   return (
@@ -670,6 +680,67 @@ export function SettingsPage() {
             </Row>
           </Section>
         ) : null}
+
+        <Section title="External Integrations (JOSH & ForgeSatchel)">
+          <Row
+            label="JOSH Policy Hook URL"
+            description="Autonomous approval policy kernel endpoint. If reachable, JOSH evaluates tool commands. If unconfigured or offline, fails closed to asking you."
+          >
+            <div className="flex items-center gap-2 w-full max-w-md">
+              <input
+                type="text"
+                placeholder="http://127.0.0.1:7777"
+                value={joshUrl}
+                onChange={(e) => setJoshUrl(e.target.value)}
+                className="flex-1 px-3 py-1.5 rounded-lg bg-sunken border border-line text-xs font-mono text-fg focus:outline-none focus:border-accent"
+              />
+              <Button
+                size="sm"
+                variant="secondary"
+                onClick={async () => {
+                  await fetch("/api/settings/integrations", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ joshPolicyUrl: joshUrl, forgeSatchelUrl: forgeUrl }),
+                  });
+                  setIntegrationsSaved(true);
+                  setTimeout(() => setIntegrationsSaved(false), 2000);
+                }}
+              >
+                {integrationsSaved ? "Saved" : "Save"}
+              </Button>
+            </div>
+          </Row>
+          <Row
+            label="ForgeSatchel Control Plane URL"
+            description="Machine authority and secrets broker. Daemon registers with ForgeSatchel on startup if configured. Standalone if empty."
+          >
+            <div className="flex items-center gap-2 w-full max-w-md">
+              <input
+                type="text"
+                placeholder="http://127.0.0.1:8888"
+                value={forgeUrl}
+                onChange={(e) => setForgeUrl(e.target.value)}
+                className="flex-1 px-3 py-1.5 rounded-lg bg-sunken border border-line text-xs font-mono text-fg focus:outline-none focus:border-accent"
+              />
+              <Button
+                size="sm"
+                variant="secondary"
+                onClick={async () => {
+                  await fetch("/api/settings/integrations", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ joshPolicyUrl: joshUrl, forgeSatchelUrl: forgeUrl }),
+                  });
+                  setIntegrationsSaved(true);
+                  setTimeout(() => setIntegrationsSaved(false), 2000);
+                }}
+              >
+                {integrationsSaved ? "Saved" : "Save"}
+              </Button>
+            </div>
+          </Row>
+        </Section>
 
         <Section title="Environment">
           <Row label="What's new" description="The release notes for this version, as they appear after Helicon updates itself.">

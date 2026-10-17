@@ -1,0 +1,9 @@
+{
+  "name": "shoreline-bot",
+  "displayName": "ShorelineOps Bot",
+  "avatar": "🏥",
+  "description": "Senior-living and healthcare dietary operations bot for resident nutrition, allergens, IDDSI compliance, and HIPAA privacy.",
+  "enabled": true,
+  "schedule": "0 9 * * *",
+  "tools": ["read_file", "write_file"]
+}

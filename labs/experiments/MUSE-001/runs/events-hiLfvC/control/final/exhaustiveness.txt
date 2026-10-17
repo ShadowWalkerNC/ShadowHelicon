@@ -1,0 +1,12 @@
+[96mexhaustiveness/events.ts[0m:[93m4[0m:[93m112[0m - [91merror[0m[90m TS2678: [0mType '"migration"' is not comparable to type '"active" | "paused" | "unexpected"'.
+
+[7m4[0m  switch(input.kind){case 'active':return 'active:'+input.name;case 'paused':return 'paused:'+input.reason;case 'migration':return 'migration:'+input.target;default:return assertNever(input);}
+[7m [0m [91m                                                                                                               ~~~~~~~~~~~[0m
+[96mexhaustiveness/events.ts[0m:[93m4[0m:[93m150[0m - [91merror[0m[90m TS2339: [0mProperty 'target' does not exist on type 'never'.
+
+[7m4[0m  switch(input.kind){case 'active':return 'active:'+input.name;case 'paused':return 'paused:'+input.reason;case 'migration':return 'migration:'+input.target;default:return assertNever(input);}
+[7m [0m [91m                                                                                                                                                     ~~~~~~[0m
+[96mexhaustiveness/events.ts[0m:[93m4[0m:[93m184[0m - [91merror[0m[90m TS2345: [0mArgument of type '{ kind: "unexpected"; extra: string; }' is not assignable to parameter of type 'never'.
+
+[7m4[0m  switch(input.kind){case 'active':return 'active:'+input.name;case 'paused':return 'paused:'+input.reason;case 'migration':return 'migration:'+input.target;default:return assertNever(input);}
+[7m [0m [91m                                                                                                                                                                                       ~~~~~[0m

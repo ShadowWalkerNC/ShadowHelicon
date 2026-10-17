@@ -1,0 +1,41 @@
+{
+  "experimentId": "MUSE-001",
+  "taskId": "events",
+  "timestamp": "2026-10-03T23:00:29.743Z",
+  "verificationStatus": "FAIL",
+  "verification": {
+    "testsPassed": true,
+    "testsFailedCount": 0,
+    "strictTypecheckPassed": true,
+    "staticPassed": false,
+    "checksExecuted": true,
+    "baselineFailed": true,
+    "unauthorizedFiles": []
+  },
+  "metrics": {
+    "changedFiles": [
+      "src/events.ts",
+      "src/types.ts"
+    ],
+    "filesChangedCount": 2,
+    "wallClockSeconds": "unknown",
+    "modelStepsCount": "unknown",
+    "toolCallsCount": "unknown",
+    "retries": "unknown",
+    "rework": "unknown",
+    "tokensPrompt": "unknown",
+    "tokensCompletion": "unknown",
+    "estimatedCostUsd": "unknown"
+  },
+  "provenance": {
+    "fixtureHash": "338f432e5a531209266f5603ce1e6eec8a67d357c662465155a412c697e74a07",
+    "nodeVersion": "v24.19.0",
+    "compiler": "C:/Users/white/Documents/GitHub/BibleDesk/node_modules/typescript/bin/tsc",
+    "scratchDirectory": "C:\\Users\\white\\Documents\\GitHub\\MuseAiBots\\experiments\\MUSE-001\\runs\\events-hiLfvC\\scratch"
+  },
+  "limitations": [
+    "File hashes observe scratch changes, not a security sandbox or out-of-scratch access monitor.",
+    "No network isolation is enforced by this harness.",
+    "Acceptance PASS alone does not establish agent budget or repeatability thresholds."
+  ]
+}

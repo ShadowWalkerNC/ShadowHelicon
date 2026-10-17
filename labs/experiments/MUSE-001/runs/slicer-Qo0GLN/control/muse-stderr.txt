@@ -1,0 +1,6 @@
+muse: workspace root: C:/Users/white/Documents/GitHub/MuseAiBots/experiments/MUSE-001/runs/slicer-Qo0GLN/scratch (explicit)
+muse: workspace trust: trusted source=user-config
+muse: Skills: 35 loaded · 1 warning
+muse:   svg-logo-designer: invalid skill package: skill file at C:\Users\white\.agents\skills\svg-logo-designer\SKILL.md is malformed: invalid skill name `SVG Logo Designer`
+muse:   Run `muse skills list --source all` for full diagnostics.
+run ended with Failed: API error 429 [request_id=593d836f-390f-4ad7-91f0-524756ed7b3c]: Subscription quota exhausted. Your usage window resets at 2026-10-05T00:00:00Z. (rate_limit_error)

@@ -1,0 +1,161 @@
+TAP version 13
+# Subtest: base
+not ok 1 - base
+  ---
+  duration_ms: 0.7362
+  type: 'test'
+  location: 'C:\\Users\\white\\Documents\\GitHub\\MuseAiBots\\experiments\\MUSE-001\\runs\\backoff-iPON3l\\control\\baseline\\acceptance.test.mjs:3:1'
+  failureType: 'testCodeFailure'
+  error: 'Not implemented'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    calculateBackoff (file:///C:/Users/white/Documents/GitHub/MuseAiBots/experiments/MUSE-001/runs/backoff-iPON3l/scratch/src/backoff.ts:1:111)
+    TestContext.<anonymous> (file:///C:/Users/white/Documents/GitHub/MuseAiBots/experiments/MUSE-001/runs/backoff-iPON3l/control/baseline/acceptance.test.mjs:3:30)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.start (node:internal/test_runner/test:1242:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17)
+  ...
+# Subtest: scale
+not ok 2 - scale
+  ---
+  duration_ms: 0.1119
+  type: 'test'
+  location: 'C:\\Users\\white\\Documents\\GitHub\\MuseAiBots\\experiments\\MUSE-001\\runs\\backoff-iPON3l\\control\\baseline\\acceptance.test.mjs:4:1'
+  failureType: 'testCodeFailure'
+  error: 'Not implemented'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    calculateBackoff (file:///C:/Users/white/Documents/GitHub/MuseAiBots/experiments/MUSE-001/runs/backoff-iPON3l/scratch/src/backoff.ts:1:111)
+    TestContext.<anonymous> (file:///C:/Users/white/Documents/GitHub/MuseAiBots/experiments/MUSE-001/runs/backoff-iPON3l/control/baseline/acceptance.test.mjs:4:53)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+  ...
+# Subtest: cap before jitter
+not ok 3 - cap before jitter
+  ---
+  duration_ms: 0.076
+  type: 'test'
+  location: 'C:\\Users\\white\\Documents\\GitHub\\MuseAiBots\\experiments\\MUSE-001\\runs\\backoff-iPON3l\\control\\baseline\\acceptance.test.mjs:5:1'
+  failureType: 'testCodeFailure'
+  error: 'Not implemented'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    calculateBackoff (file:///C:/Users/white/Documents/GitHub/MuseAiBots/experiments/MUSE-001/runs/backoff-iPON3l/scratch/src/backoff.ts:1:111)
+    TestContext.<anonymous> (file:///C:/Users/white/Documents/GitHub/MuseAiBots/experiments/MUSE-001/runs/backoff-iPON3l/control/baseline/acceptance.test.mjs:5:43)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: zero base/cap
+not ok 4 - zero base/cap
+  ---
+  duration_ms: 0.0729
+  type: 'test'
+  location: 'C:\\Users\\white\\Documents\\GitHub\\MuseAiBots\\experiments\\MUSE-001\\runs\\backoff-iPON3l\\control\\baseline\\acceptance.test.mjs:6:1'
+  failureType: 'testCodeFailure'
+  error: 'Not implemented'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    calculateBackoff (file:///C:/Users/white/Documents/GitHub/MuseAiBots/experiments/MUSE-001/runs/backoff-iPON3l/scratch/src/backoff.ts:1:111)
+    TestContext.<anonymous> (file:///C:/Users/white/Documents/GitHub/MuseAiBots/experiments/MUSE-001/runs/backoff-iPON3l/control/baseline/acceptance.test.mjs:6:40)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: jitter endpoints
+not ok 5 - jitter endpoints
+  ---
+  duration_ms: 0.0958
+  type: 'test'
+  location: 'C:\\Users\\white\\Documents\\GitHub\\MuseAiBots\\experiments\\MUSE-001\\runs\\backoff-iPON3l\\control\\baseline\\acceptance.test.mjs:7:1'
+  failureType: 'testCodeFailure'
+  error: 'Not implemented'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    calculateBackoff (file:///C:/Users/white/Documents/GitHub/MuseAiBots/experiments/MUSE-001/runs/backoff-iPON3l/scratch/src/backoff.ts:1:111)
+    TestContext.<anonymous> (file:///C:/Users/white/Documents/GitHub/MuseAiBots/experiments/MUSE-001/runs/backoff-iPON3l/control/baseline/acceptance.test.mjs:7:43)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: overflow domain
+not ok 6 - overflow domain
+  ---
+  duration_ms: 0.0875
+  type: 'test'
+  location: 'C:\\Users\\white\\Documents\\GitHub\\MuseAiBots\\experiments\\MUSE-001\\runs\\backoff-iPON3l\\control\\baseline\\acceptance.test.mjs:8:1'
+  failureType: 'testCodeFailure'
+  error: 'Not implemented'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    calculateBackoff (file:///C:/Users/white/Documents/GitHub/MuseAiBots/experiments/MUSE-001/runs/backoff-iPON3l/scratch/src/backoff.ts:1:111)
+    TestContext.<anonymous> (file:///C:/Users/white/Documents/GitHub/MuseAiBots/experiments/MUSE-001/runs/backoff-iPON3l/control/baseline/acceptance.test.mjs:8:42)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: invalid inputs
+not ok 7 - invalid inputs
+  ---
+  duration_ms: 0.7201
+  type: 'test'
+  location: 'C:\\Users\\white\\Documents\\GitHub\\MuseAiBots\\experiments\\MUSE-001\\runs\\backoff-iPON3l\\control\\baseline\\acceptance.test.mjs:9:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The error is expected to be an instance of "RangeError". Received "Error"
+    
+    Error message:
+    
+    Not implemented
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: [Function: RangeError]
+  actual:
+  error: 'Not implemented'
+  stack: |-
+    calculateBackoff (file:///C:/Users/white/Documents/GitHub/MuseAiBots/experiments/MUSE-001/runs/backoff-iPON3l/scratch/src/backoff.ts:1:111)
+    file:///C:/Users/white/Documents/GitHub/MuseAiBots/experiments/MUSE-001/runs/backoff-iPON3l/control/baseline/acceptance.test.mjs:9:192
+    getActual (node:assert:611:5)
+    strict.throws (node:assert:759:24)
+    TestContext.<anonymous> (file:///C:/Users/white/Documents/GitHub/MuseAiBots/experiments/MUSE-001/runs/backoff-iPON3l/control/baseline/acceptance.test.mjs:9:181)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///C:/Users/white/Documents/GitHub/MuseAiBots/experiments/MUSE-001/runs/backoff-iPON3l/control/baseline/acceptance.test.mjs:9:181)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 0
+# fail 7
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 12.6662

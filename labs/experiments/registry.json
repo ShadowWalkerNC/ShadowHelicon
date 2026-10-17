@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "experiments": [
+    {
+      "id": "MUSE-001",
+      "lifecycle": "EXPERIMENT",
+      "simulation": false,
+      "executionStatus": "BLOCKED",
+      "decision": "INCONCLUSIVE",
+      "files": {
+        "hypothesis": "experiments/MUSE-001/hypothesis.md",
+        "implementation": "experiments/MUSE-001/harness.mjs",
+        "results": "experiments/MUSE-001/results.md",
+        "decision": "experiments/MUSE-001/decision.md"
+      }
+    },
+    {
+      "id": "MUSE-002",
+      "lifecycle": "EXPERIMENT",
+      "simulation": true,
+      "executionStatus": "PASS",
+      "decision": "SIMULATION_ONLY",
+      "files": {
+        "hypothesis": "experiments/MUSE-002/hypothesis.md",
+        "implementation": "experiments/MUSE-002/implementation/connector.mjs",
+        "results": "experiments/MUSE-002/results.md",
+        "decision": "experiments/MUSE-002/decision.md"
+      }
+    },
+    {
+      "id": "MUSE-003",
+      "lifecycle": "EXPERIMENT",
+      "simulation": true,
+      "executionStatus": "PASS",
+      "decision": "SIMULATION_ONLY",
+      "files": {
+        "hypothesis": "experiments/MUSE-003/hypothesis.md",
+        "implementation": "experiments/MUSE-003/implementation/device.mjs",
+        "results": "experiments/MUSE-003/results.md",
+        "decision": "experiments/MUSE-003/decision.md"
+      }
+    }
+  ]
+}

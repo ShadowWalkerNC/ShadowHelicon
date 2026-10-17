@@ -2075,13 +2075,19 @@ describe("file viewer", () => {
     await writeFile(join(root, "blob.bin"), Buffer.from([1, 0, 2, 0]));
     await writeFile(join(root, "node_modules", "pkg", "guide.md"), "vendored");
     await writeFile(join(outside, "secret.txt"), "secret");
-    await symlink(join(outside, "secret.txt"), join(root, "escape.txt"));
+    let hasSymlink = false;
+    try {
+      await symlink(join(outside, "secret.txt"), join(root, "escape.txt"));
+      hasSymlink = true;
+    } catch {
+      // Unprivileged symlink creation fails with EPERM on Windows without Developer Mode
+    }
     const connection = new FakeConnection();
     const { base } = await start(connection, { platform: process.platform });
     const added = await send(base, "/api/projects", { cwd: root });
     const cwd = added.json.project.cwd as string;
     const q = (path: string) => `cwd=${encodeURIComponent(cwd)}&path=${encodeURIComponent(path)}`;
-    return { base, root, cwd, q };
+    return { base, root, cwd, q, hasSymlink };
   }
 
   it("lists folders first and reads text, markdown and media descriptions", async () => {
@@ -2108,10 +2114,12 @@ describe("file viewer", () => {
   });
 
   it("refuses paths outside the project, through .. or a symlink, and unknown projects", async () => {
-    const { base, q, cwd } = await project();
+    const { base, q, cwd, hasSymlink } = await project();
     assert.equal((await fetch(`${base}/api/files/read?${q("../../etc/passwd")}`)).status, 403);
-    assert.equal((await fetch(`${base}/api/files/read?${q("escape.txt")}`)).status, 403, "a symlink out of the project is refused");
-    assert.equal((await fetch(`${base}/api/files/raw?${q("escape.txt")}`)).status, 403);
+    if (hasSymlink) {
+      assert.equal((await fetch(`${base}/api/files/read?${q("escape.txt")}`)).status, 403, "a symlink out of the project is refused");
+      assert.equal((await fetch(`${base}/api/files/raw?${q("escape.txt")}`)).status, 403);
+    }
     assert.equal((await fetch(`${base}/api/files/read?${q("/etc/passwd")}`)).status, 404, "an absolute path elsewhere resolves inside the project, where it is not");
     assert.equal((await fetch(`${base}/api/files/list?cwd=${encodeURIComponent("/etc")}&path=`)).status, 404);
     const write = await fetch(`${base}/api/files/write`, {
@@ -2243,9 +2251,11 @@ describe("file viewer", () => {
     });
 
     it("refuses paths outside the project and malformed bodies", async () => {
-      const { base, cwd } = await project();
+      const { base, cwd, hasSymlink } = await project();
       assert.equal((await revert(base, cwd, "../../etc/passwd", [{ before: "a", after: "b" }])).status, 403);
-      assert.equal((await revert(base, cwd, "escape.txt", [{ before: "a", after: "b" }])).status, 403);
+      if (hasSymlink) {
+        assert.equal((await revert(base, cwd, "escape.txt", [{ before: "a", after: "b" }])).status, 403);
+      }
       assert.equal((await revert(base, cwd, "README.md", "nope")).status, 400);
       assert.equal((await revert(base, cwd, "README.md", [{ before: 1, after: "b" }])).status, 400);
     });

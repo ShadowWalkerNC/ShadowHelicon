@@ -1,0 +1,2 @@
+../../../GitHub/MuseAiBots/experiments/MUSE-001/runs/events-jeQ7ZH/scratch/src/events.ts(4,112): error TS2678: Type '"migration"' is not comparable to type '"active" | "paused"'.
+../../../GitHub/MuseAiBots/experiments/MUSE-001/runs/events-jeQ7ZH/scratch/src/events.ts(4,150): error TS2339: Property 'target' does not exist on type 'never'.

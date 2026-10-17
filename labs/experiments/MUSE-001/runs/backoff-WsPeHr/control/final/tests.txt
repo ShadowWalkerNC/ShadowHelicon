@@ -1,0 +1,52 @@
+TAP version 13
+# Subtest: base
+ok 1 - base
+  ---
+  duration_ms: 0.5996
+  type: 'test'
+  ...
+# Subtest: scale
+ok 2 - scale
+  ---
+  duration_ms: 0.1062
+  type: 'test'
+  ...
+# Subtest: cap before jitter
+ok 3 - cap before jitter
+  ---
+  duration_ms: 0.0826
+  type: 'test'
+  ...
+# Subtest: zero base/cap
+ok 4 - zero base/cap
+  ---
+  duration_ms: 0.0729
+  type: 'test'
+  ...
+# Subtest: jitter endpoints
+ok 5 - jitter endpoints
+  ---
+  duration_ms: 0.1032
+  type: 'test'
+  ...
+# Subtest: overflow domain
+ok 6 - overflow domain
+  ---
+  duration_ms: 0.2909
+  type: 'test'
+  ...
+# Subtest: invalid inputs
+ok 7 - invalid inputs
+  ---
+  duration_ms: 0.145
+  type: 'test'
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 9.5032

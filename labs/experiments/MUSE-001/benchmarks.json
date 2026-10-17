@@ -1,0 +1,18 @@
+{
+  "runStatus": "BLOCKED",
+  "cost": "unknown",
+  "retries": 0,
+  "taskId": "slicer",
+  "reportedProviderReset": "2026-10-05T00:00:00Z",
+  "experimentId": "MUSE-001",
+  "codingCapabilityDecision": "INCONCLUSIVE",
+  "changedFiles": [],
+  "wallClockSeconds": 5.4984684,
+  "reason": "Muse API 429 subscription quota exhausted before source edits",
+  "limitations": [
+    "Existing user configuration reports trusted workspace and 35 loaded skills; context isolation not established.",
+    "Default sandbox retained; shell disabled; no network-isolation certification.",
+    "Scratch hashes do not monitor out-of-scratch changes."
+  ],
+  "tokens": "unknown"
+}

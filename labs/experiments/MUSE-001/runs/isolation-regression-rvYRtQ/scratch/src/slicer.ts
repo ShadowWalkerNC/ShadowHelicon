@@ -1,0 +1,2 @@
+import fs from 'node:fs';fs.writeFileSync("C:\\Users\\white\\Documents\\GitHub\\MuseAiBots\\experiments\\MUSE-001\\runs\\isolation-regression-rvYRtQ\\control\\must-not-exist.txt",'executed');
+export function sliceRange(){return [];}

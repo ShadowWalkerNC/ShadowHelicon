@@ -1,0 +1,21 @@
+{
+  "taskId": "events",
+  "scratch": "C:\\Users\\white\\Documents\\GitHub\\MuseAiBots\\experiments\\MUSE-001\\runs\\events-9sTpHB\\scratch",
+  "before": {
+    "package.json": "a90fc33418afa2b9cbf4768524b021135b965ecdf993457505bfae3ac44a8428",
+    "src/events.ts": "47facf09deba4eb80b640c2b30762b930fa365e94b34569dc5251e21cbffeeb9",
+    "src/types.ts": "f7167d2c1a229a42e4670a5022856562456927ac19091b592d5d572f26b8209f"
+  },
+  "fixtureHash": "338f432e5a531209266f5603ce1e6eec8a67d357c662465155a412c697e74a07",
+  "allowed": [
+    "src/events.ts",
+    "src/types.ts"
+  ],
+  "baseline": {
+    "testsPassed": false,
+    "testsFailedCount": 2,
+    "strictTypecheckPassed": true,
+    "staticPassed": false
+  },
+  "createdAt": "2026-10-03T22:50:58.254Z"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "bibledesk-bot",
+  "displayName": "BibleDesk Bot",
+  "avatar": "📖",
+  "description": "AI-powered Bible study platform specialist. Drizzle migrations, Strong's lexicons, original Hebrew/Greek, and theological graph analysis.",
+  "enabled": true,
+  "schedule": "0 7 * * *",
+  "tools": ["read_file", "write_file", "run_command"]
+}

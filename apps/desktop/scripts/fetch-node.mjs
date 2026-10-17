@@ -17,6 +17,7 @@ const cacheDir = join(appDir, ".cache", "node", NODE_VERSION);
 
 const DISTS = {
   "x86_64-pc-windows-msvc": { name: `node-${NODE_VERSION}-win-x64`, ext: "zip", member: "node.exe" },
+  "x86_64-pc-windows-gnu": { name: `node-${NODE_VERSION}-win-x64`, ext: "zip", member: "node.exe" },
   "aarch64-apple-darwin": { name: `node-${NODE_VERSION}-darwin-arm64`, ext: "tar.gz", member: "bin/node" },
   "x86_64-apple-darwin": { name: `node-${NODE_VERSION}-darwin-x64`, ext: "tar.gz", member: "bin/node" },
   "x86_64-unknown-linux-gnu": { name: `node-${NODE_VERSION}-linux-x64`, ext: "tar.gz", member: "bin/node" },

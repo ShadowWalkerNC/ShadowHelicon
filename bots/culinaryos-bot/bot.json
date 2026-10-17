@@ -1,0 +1,9 @@
+{
+  "name": "culinaryos-bot",
+  "displayName": "CulinaryOS Bot",
+  "avatar": "👨‍🍳",
+  "description": "CulinaryOS Specialist for Turborepo workspaces, POS/KDS coordination, culinary MCP hub, and Supabase migrations.",
+  "enabled": true,
+  "schedule": "0 8 * * *",
+  "tools": ["read_file", "write_file", "run_command"]
+}

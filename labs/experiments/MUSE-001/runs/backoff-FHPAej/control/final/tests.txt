@@ -1,0 +1,46 @@
+TAP version 13
+# Subtest: base
+ok 1 - base
+  ---
+  duration_ms: 0.5963
+  type: 'test'
+  ...
+# Subtest: scale
+ok 2 - scale
+  ---
+  duration_ms: 0.109
+  type: 'test'
+  ...
+# Subtest: cap before jitter
+ok 3 - cap before jitter
+  ---
+  duration_ms: 0.073
+  type: 'test'
+  ...
+# Subtest: zero base/cap
+ok 4 - zero base/cap
+  ---
+  duration_ms: 0.0667
+  type: 'test'
+  ...
+# Subtest: jitter endpoints
+ok 5 - jitter endpoints
+  ---
+  duration_ms: 0.0969
+  type: 'test'
+  ...
+# Subtest: invalid inputs
+ok 6 - invalid inputs
+  ---
+  duration_ms: 0.3517
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 577.2781

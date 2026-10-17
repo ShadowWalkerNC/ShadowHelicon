@@ -1,0 +1,43 @@
+{
+  "experimentId": "MUSE-001",
+  "taskId": "backoff",
+  "timestamp": "2026-10-03T23:00:07.174Z",
+  "verificationStatus": "FAIL",
+  "verification": {
+    "testsPassed": false,
+    "testsFailedCount": "NOT RUN",
+    "strictTypecheckPassed": false,
+    "staticPassed": false,
+    "checksExecuted": false,
+    "baselineFailed": true,
+    "unauthorizedFiles": [
+      "package.json"
+    ]
+  },
+  "metrics": {
+    "changedFiles": [
+      "package.json",
+      "src/backoff.ts"
+    ],
+    "filesChangedCount": 2,
+    "wallClockSeconds": "unknown",
+    "modelStepsCount": "unknown",
+    "toolCallsCount": "unknown",
+    "retries": "unknown",
+    "rework": "unknown",
+    "tokensPrompt": "unknown",
+    "tokensCompletion": "unknown",
+    "estimatedCostUsd": "unknown"
+  },
+  "provenance": {
+    "fixtureHash": "5cbe96c3d9bf783648151461cb86cf2a9c99abe1f6d757528e8e038de02d25e0",
+    "nodeVersion": "v24.19.0",
+    "compiler": "C:/Users/white/Documents/GitHub/BibleDesk/node_modules/typescript/bin/tsc",
+    "scratchDirectory": "C:\\Users\\white\\Documents\\GitHub\\MuseAiBots\\experiments\\MUSE-001\\runs\\backoff-YLnGK4\\scratch"
+  },
+  "limitations": [
+    "File hashes observe scratch changes, not a security sandbox or out-of-scratch access monitor.",
+    "No network isolation is enforced by this harness.",
+    "Acceptance PASS alone does not establish agent budget or repeatability thresholds."
+  ]
+}

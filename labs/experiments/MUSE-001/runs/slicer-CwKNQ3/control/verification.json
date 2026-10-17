@@ -1,0 +1,42 @@
+{
+  "experimentId": "MUSE-001",
+  "taskId": "slicer",
+  "timestamp": "2026-10-03T22:48:36.769Z",
+  "verificationStatus": "FAIL",
+  "verification": {
+    "testsPassed": true,
+    "testsFailedCount": 0,
+    "strictTypecheckPassed": true,
+    "staticPassed": true,
+    "baselineFailed": true,
+    "unauthorizedFiles": [
+      "unexpected.txt"
+    ]
+  },
+  "metrics": {
+    "changedFiles": [
+      "src/slicer.ts",
+      "unexpected.txt"
+    ],
+    "filesChangedCount": 2,
+    "wallClockSeconds": "unknown",
+    "modelStepsCount": "unknown",
+    "toolCallsCount": "unknown",
+    "retries": "unknown",
+    "rework": "unknown",
+    "tokensPrompt": "unknown",
+    "tokensCompletion": "unknown",
+    "estimatedCostUsd": "unknown"
+  },
+  "provenance": {
+    "fixtureHash": "de58191da47cad3ef8917e569519ead55663bca752948104ccdccefcf8268dcc",
+    "nodeVersion": "v24.19.0",
+    "compiler": "C:/Users/white/Documents/GitHub/BibleDesk/node_modules/typescript/bin/tsc",
+    "scratchDirectory": "C:\\Users\\white\\Documents\\GitHub\\MuseAiBots\\experiments\\MUSE-001\\runs\\slicer-CwKNQ3\\scratch"
+  },
+  "limitations": [
+    "File hashes observe scratch changes, not a security sandbox or out-of-scratch access monitor.",
+    "No network isolation is enforced by this harness.",
+    "Acceptance PASS alone does not establish agent budget or repeatability thresholds."
+  ]
+}

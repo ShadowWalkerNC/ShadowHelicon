@@ -1,0 +1,2 @@
+Fix sliceRange(input:number[],start:number,end:number):number[]. Bounds are integer offsets clamped to zero; end is exclusive. Return a fresh array; start beyond end returns empty. Preserve the input. Only edit src/slicer.ts.
+Do not add, delete or edit other files. Do not install packages, access secrets or change permissions. Independent tests/typecheck are outside this scratch directory. Stop after implementing the requested source change.

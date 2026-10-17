@@ -27,6 +27,8 @@ export interface ProjectView {
   activityAt: string;
   /** The account new threads here default to; null for the default login. */
   defaultAccountId: string | null;
+  category?: string;
+  isPrivate?: boolean;
 }
 
 /** Server-tracked live state for a session; null until the server has seen it run. */

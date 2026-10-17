@@ -86,7 +86,7 @@ function SidebarTop(props: { newThreadRef: Ref<HTMLButtonElement> }) {
     <div data-drag-region {...drag} className="flex flex-col gap-px px-2 pt-2 pb-1.5">
       <div className="mb-2 flex h-8 items-center gap-2 pr-0.5 pl-1.5">
         <Logo size={20} />
-        <span className="text-[14px] font-semibold tracking-[-0.01em] text-fg">Helicon</span>
+        <span className="text-[14px] font-semibold tracking-[-0.01em] text-fg">ShadowHelicon</span>
         <span className="flex-1" />
         <Tip label="Hide sidebar" shortcut={[MOD, "B"]}>
           <IconButton label="Hide sidebar" onClick={() => controller.toggleSidebar()}>
@@ -103,6 +103,9 @@ function SidebarTop(props: { newThreadRef: Ref<HTMLButtonElement> }) {
         onClick={() => controller.newThread()}
       />
       <NavRow icon={<MagnifyingGlassIcon size={15} />} label="Search" keys={[MOD, "K"]} onClick={() => controller.setPaletteOpen(true)} />
+      <NavRow icon={<TargetIcon size={15} />} label="Labs" keys={[]} active={routeKind === "labs"} onClick={() => controller.navigate({ kind: "labs" })} />
+      <NavRow icon={<MonitorIcon size={15} />} label="Bots" keys={[]} active={routeKind === "bots"} onClick={() => controller.navigate({ kind: "bots" })} />
+      <NavRow icon={<FunnelSimpleIcon size={15} />} label="Scout" keys={[]} active={routeKind === "scout"} onClick={() => controller.navigate({ kind: "scout" })} />
     </div>
   );
 }
@@ -168,6 +171,16 @@ function ThreadList() {
   const { entries, activeId } = useSidebarEntries();
 
   const projectGroups = useMemo(() => groupByProject(projects, entries), [projects, entries]);
+  const categorizedProjectGroups = useMemo(() => {
+    const map = new Map<string, ProjectGroup[]>();
+    for (const group of projectGroups) {
+      const cat = group.project.category || "Projects";
+      if (!map.has(cat)) map.set(cat, []);
+      map.get(cat)!.push(group);
+    }
+    return Array.from(map.entries()).map(([category, groups]) => ({ category, groups }));
+  }, [projectGroups]);
+
   // Dragging a project header moves it: the drop lands it above the row under the cursor, or last.
   const [dragging, setDragging] = useState<string | null>(null);
   const [over, setOver] = useState<string | null>(null);
@@ -204,20 +217,30 @@ function ThreadList() {
           <SidebarEmpty />
         ) : groupBy === "project" ? (
           <>
-            {projectGroups.map((group) => (
-              <ProjectSection
-                key={group.project.cwd}
-                group={group}
-                collapsed={collapsed.includes(group.project.cwd)}
-                activeId={activeId}
-                now={now}
-                dragging={dragging}
-                over={over}
-                onDragStart={setDragging}
-                onDragOver={setOver}
-                onDrop={drop}
-                onDragEnd={endDrag}
-              />
+            {categorizedProjectGroups.map(({ category, groups }) => (
+              <div key={category} className="mb-2.5">
+                {categorizedProjectGroups.length > 1 ? (
+                  <div className="px-2 py-1 text-3xs font-semibold tracking-wider uppercase text-subtle/70 flex items-center justify-between select-none">
+                    <span>{category}</span>
+                    <span className="text-3xs text-subtle font-mono">{groups.length}</span>
+                  </div>
+                ) : null}
+                {groups.map((group) => (
+                  <ProjectSection
+                    key={group.project.cwd}
+                    group={group}
+                    collapsed={collapsed.includes(group.project.cwd)}
+                    activeId={activeId}
+                    now={now}
+                    dragging={dragging}
+                    over={over}
+                    onDragStart={setDragging}
+                    onDragOver={setOver}
+                    onDrop={drop}
+                    onDragEnd={endDrag}
+                  />
+                ))}
+              </div>
             ))}
             {dragging ? (
               <div
@@ -358,6 +381,11 @@ const ProjectSection = memo(function ProjectSection(props: {
             <FolderOpenIcon size={15} className="shrink-0 text-subtle" />
           )}
           <span className="truncate text-sm font-medium text-fg">{project.displayName}</span>
+          {project.isPrivate ? (
+            <span className="shrink-0 text-3xs font-mono px-1 py-0.5 rounded bg-neutral-800 text-neutral-400 border border-neutral-700/60" title="Private project">
+              priv
+            </span>
+          ) : null}
           {project.pinned ? (
             <>
               <PushPinIcon size={11} className="shrink-0 text-subtle" aria-hidden="true" />

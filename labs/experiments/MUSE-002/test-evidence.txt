@@ -1,0 +1,12 @@
+✔ versioned synthetic list/read and missing resource (1.2179ms)
+✔ mutations denied before any domain callback (0.2294ms)
+✔ client grants cannot obtain read permission (0.1591ms)
+✔ invalid envelopes/params rejected without callbacks (1.09ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 870.1824

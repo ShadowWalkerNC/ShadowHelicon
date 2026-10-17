@@ -1,0 +1,1 @@
+export type PortfolioEvent=({kind:'active';name:string}|{kind:'paused';reason:string}) | {kind:'unexpected';extra:string};export type EventResult=string;

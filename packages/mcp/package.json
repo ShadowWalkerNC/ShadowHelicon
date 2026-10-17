@@ -1,0 +1,27 @@
+{
+  "name": "@helicon/mcp",
+  "version": "0.22.2",
+  "description": "ShadowHelicon MCP Server: expose coding sessions to external agents over stdio",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
+  "type": "module",
+  "bin": {
+    "shadowhelicon-mcp": "dist/src/cli.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "node --test \"dist/test/*.test.js\"",
+    "clean": "rimraf dist"
+  },
+  "dependencies": {
+    "@helicon/daemon": "*"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.6.0"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

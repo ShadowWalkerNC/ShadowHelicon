@@ -72,6 +72,10 @@ import {
   type ViewTailTiming,
 } from "./viewTail.js";
 import { AoniaError, createAonia, parseLoginOutput, type Aonia, type Profile } from "@harjjotsinghh/aonia";
+import { syncProjectsFromConfig } from "./projectsConfig.js";
+import { listExperiments, createExperiment, runExperimentHarness } from "./labs.js";
+import { listBots, getBot, saveBot, deleteBot, recordBotRun } from "./bots.js";
+import { getScoutData } from "./scout.js";
 
 export const HELICON_VERSION = "0.22.2";
 
@@ -823,6 +827,8 @@ export class HeliconServer {
     };
   /** `muse login` children in flight, keyed by account id; a reopened modal kills and replaces the old one. */
   private readonly loginChildren = new Map<string, LoginChild>();
+  /** Allowed tools per bot session for strict permission and approval policy enforcement. */
+  private readonly botSessionPolicies = new Map<string, string[]>();
 
   constructor(options: ServerOptions = {}) {
     this.options = {
@@ -875,6 +881,11 @@ export class HeliconServer {
 
   async listen(): Promise<{ port: number; host: string }> {
     await new Promise<void>((resolve) => this.server.listen(this.options.port, this.options.host, resolve));
+    syncProjectsFromConfig(this.store);
+    const forgeUrl = this.store.getForgeSatchelUrl();
+    if (forgeUrl) {
+      void this.registerForgeSatchel(forgeUrl);
+    }
     const address = this.server.address();
     const port = typeof address === "object" && address ? address.port : this.options.port;
     // No sweep at startup: which threads are busy in other Muse clients is only known after discovery.
@@ -882,6 +893,99 @@ export class HeliconServer {
     this.settleTimer.unref?.();
     this.tail.start();
     return { port, host: this.options.host };
+  }
+
+  private async registerForgeSatchel(url: string): Promise<boolean> {
+    if (!url || !url.trim()) return false;
+    try {
+      const payload = {
+        machineId: "shadowhelicon-" + process.platform,
+        hostname: process.env["COMPUTERNAME"] || process.env["HOSTNAME"] || "windows",
+        platform: process.platform,
+        arch: process.arch,
+        heliconVersion: HELICON_VERSION,
+        registeredAt: new Date().toISOString(),
+      };
+      const res = await fetch(`${url.replace(/\/+$/, "")}/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+        signal: AbortSignal.timeout(3000),
+      });
+      return res.ok;
+    } catch {
+      return false;
+    }
+  }
+
+  private async evaluateApprovalPolicy(sessionId: string, params: Record<string, unknown>): Promise<boolean> {
+    const approvalId = str(params["approvalId"]);
+    if (!approvalId) return false;
+    const requirementId = params["requirementId"];
+
+    // 1. Bot tool allowlist check
+    const allowedTools = this.botSessionPolicies.get(sessionId);
+    if (allowedTools) {
+      const toolName = str(params["tool"]) || str(params["toolName"]) || str(params["name"]);
+      const isShell = Boolean(
+        params["command"] ||
+        toolName === "shell" ||
+        toolName === "run_command" ||
+        toolName === "bash" ||
+        toolName === "powershell" ||
+        str(params["type"]) === "shell"
+      );
+      if (isShell && !allowedTools.includes("shell") && !allowedTools.includes("run_command")) {
+        try {
+          const manager = await this.managerForSession(sessionId);
+          await manager.decideApproval({
+            sessionId,
+            approvalId,
+            requirementId,
+            choiceId: "deny",
+            feedback: "Denied: Shell execution is not in this bot's tool allowlist.",
+          });
+          return true;
+        } catch {
+          // ignore
+        }
+      }
+    }
+
+    // 2. JOSH policy hook check
+    const joshUrl = this.store.getJoshPolicyUrl();
+    if (joshUrl && joshUrl.trim()) {
+      try {
+        const res = await fetch(`${joshUrl.replace(/\/+$/, "")}/policy`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            action: "approval_request",
+            sessionId,
+            params,
+          }),
+          signal: AbortSignal.timeout(3000),
+        });
+        if (res.ok) {
+          const data = (await res.json()) as { decision?: string; choiceId?: string; feedback?: string };
+          if (data.decision === "allow" || data.decision === "deny") {
+            const manager = await this.managerForSession(sessionId);
+            await manager.decideApproval({
+              sessionId,
+              approvalId,
+              requirementId,
+              choiceId: data.choiceId ?? data.decision,
+              feedback: data.feedback,
+            });
+            return true;
+          }
+        }
+      } catch {
+        // Fail closed to asking the user
+      }
+    }
+
+    return false;
   }
 
   async close(): Promise<void> {
@@ -1160,12 +1264,15 @@ export class HeliconServer {
       return true;
     }
     if (method === "GET" && path === "/api/projects") {
+      syncProjectsFromConfig(this.store);
       this.json(res, 200, {
         projects: this.store.listProjects().map((p) => ({
           cwd: p.cwd,
           displayName: p.displayName,
           pinned: p.pinned,
           activityAt: p.activityAt,
+          category: p.category ?? "Projects",
+          isPrivate: p.isPrivate === true,
           defaultAccountId: p.defaultAccountId,
         })),
       });
@@ -1744,6 +1851,190 @@ export class HeliconServer {
         "cache-control": "private, max-age=86400",
       });
       res.end(Buffer.from(found.bytes));
+      return true;
+    }
+
+    // --- ShadowHelicon Integrations Routes ---
+    if (method === "GET" && path === "/api/settings/integrations") {
+      this.json(res, 200, {
+        joshPolicyUrl: this.store.getJoshPolicyUrl() ?? "",
+        forgeSatchelUrl: this.store.getForgeSatchelUrl() ?? "",
+      });
+      return true;
+    }
+    if (method === "POST" && path === "/api/settings/integrations") {
+      const body = await this.readBody(req);
+      if ("joshPolicyUrl" in body) {
+        const josh = str(body["joshPolicyUrl"])?.trim() ?? null;
+        this.store.setJoshPolicyUrl(josh && josh.length > 0 ? josh : null);
+      }
+      if ("forgeSatchelUrl" in body) {
+        const forge = str(body["forgeSatchelUrl"])?.trim() ?? null;
+        const finalForge = forge && forge.length > 0 ? forge : null;
+        this.store.setForgeSatchelUrl(finalForge);
+        if (finalForge) {
+          void this.registerForgeSatchel(finalForge);
+        }
+      }
+      this.json(res, 200, {
+        ok: true,
+        joshPolicyUrl: this.store.getJoshPolicyUrl() ?? "",
+        forgeSatchelUrl: this.store.getForgeSatchelUrl() ?? "",
+      });
+      return true;
+    }
+
+    // --- ShadowHelicon Labs Routes ---
+    if (method === "GET" && path === "/api/labs/experiments") {
+      this.json(res, 200, { experiments: await listExperiments() });
+      return true;
+    }
+    if (method === "POST" && path === "/api/labs/experiments") {
+      const body = await this.readBody(req);
+      const id = str(body["id"]) || `EXP-${Date.now()}`;
+      const title = str(body["title"]) ?? "Untitled Experiment";
+      const hypothesis = str(body["hypothesis"]) ?? "";
+      const exp = createExperiment(id, title, hypothesis);
+      this.json(res, 200, { experiment: exp });
+      return true;
+    }
+    if (method === "POST" && path === "/api/labs/run") {
+      const body = await this.readBody(req);
+      const experimentId = str(body["experimentId"]);
+      if (!experimentId) {
+        throw new HttpError(400, "experimentId is required.");
+      }
+      const result = await runExperimentHarness(experimentId);
+      this.json(res, 200, result);
+      return true;
+    }
+
+    // --- ShadowHelicon Bots Routes ---
+    if (method === "GET" && path === "/api/bots") {
+      this.json(res, 200, { bots: listBots() });
+      return true;
+    }
+    if (method === "POST" && path === "/api/bots") {
+      const body = await this.readBody(req);
+      const name = str(body["name"])?.trim();
+      if (!name) {
+        throw new HttpError(400, "Bot name is required.");
+      }
+      const bot = saveBot(name, {
+        config: typeof body["config"] === "object" && body["config"] !== null ? (body["config"] as any) : undefined,
+        agentsMd: str(body["agentsMd"]) ?? undefined,
+        soulMd: str(body["soulMd"]) ?? undefined,
+        memoryMd: str(body["memoryMd"]) ?? undefined,
+      });
+      this.json(res, 200, { bot });
+      return true;
+    }
+
+    const botRunMatch = path.match(/^\/api\/bots\/([^/]+)\/run$/);
+    if (method === "POST" && botRunMatch) {
+      const name = decodeURIComponent(botRunMatch[1] as string);
+      const bot = getBot(name);
+      if (!bot) {
+        throw new HttpError(404, `Bot not found: ${name}`);
+      }
+      const sessionResult = (await this.startSession(normalizeCwd(bot.workspacePath))) as Record<string, unknown>;
+      const sessionId = sessionResult["id"] as string;
+      this.botSessionPolicies.set(sessionId, bot.config.tools || []);
+
+      const instructions = bot.agentsMd ? `Instructions:\n${bot.agentsMd}\n\n` : "";
+      const soul = bot.soulMd ? `Soul & Identity:\n${bot.soulMd}\n\n` : "";
+      const memory = bot.memoryMd ? `Memory:\n${bot.memoryMd}\n\n` : "";
+      const promptText = `${instructions}${soul}${memory}You are initialized. Review your memory, soul, and instructions, and begin by reporting your current status.`.trim();
+
+      const manager = await this.managerForSession(sessionId);
+      this.wake(sessionId);
+      const ack = await manager.sendTurn(sessionId, promptText, {});
+      this.store.updateSession(sessionId, { activityAt: nowIso(), title: `${bot.config.displayName} run` });
+
+      const runId = recordBotRun(name, {
+        runId: ack.turnId,
+        sessionId,
+        startedAt: nowIso(),
+        prompt: promptText.slice(0, 500),
+        status: ack.status,
+      });
+
+      this.json(res, 200, {
+        ok: true,
+        runId,
+        sessionId,
+        turnId: ack.turnId,
+        botName: name,
+        session: sessionResult,
+      });
+      return true;
+    }
+
+    const botDetailMatch = path.match(/^\/api\/bots\/([^/]+)$/);
+    if (botDetailMatch) {
+      const name = decodeURIComponent(botDetailMatch[1] as string);
+      if (method === "GET") {
+        const bot = getBot(name);
+        if (!bot) {
+          throw new HttpError(404, `Bot not found: ${name}`);
+        }
+        this.json(res, 200, { bot });
+        return true;
+      }
+      if (method === "PUT") {
+        const body = await this.readBody(req);
+        const bot = saveBot(name, {
+          config: typeof body["config"] === "object" && body["config"] !== null ? (body["config"] as any) : undefined,
+          agentsMd: str(body["agentsMd"]) ?? undefined,
+          soulMd: str(body["soulMd"]) ?? undefined,
+          memoryMd: str(body["memoryMd"]) ?? undefined,
+        });
+        this.json(res, 200, { bot });
+        return true;
+      }
+      if (method === "DELETE") {
+        const ok = deleteBot(name);
+        this.json(res, 200, { ok });
+        return true;
+      }
+    }
+
+    // --- ShadowHelicon Scout Routes ---
+    if (method === "GET" && path === "/api/scout") {
+      this.json(res, 200, await getScoutData());
+      return true;
+    }
+    if (method === "POST" && path === "/api/scout/scan") {
+      const bot = getBot("api-scout");
+      if (!bot) {
+        throw new HttpError(404, "API Scout bot configuration not found.");
+      }
+      const sessionResult = (await this.startSession(normalizeCwd(bot.workspacePath))) as Record<string, unknown>;
+      const sessionId = sessionResult["id"] as string;
+      this.botSessionPolicies.set(sessionId, bot.config.tools || []);
+
+      const promptText = `Instructions:\n${bot.agentsMd}\n\nContext & Memory:\n${bot.memoryMd}\n\nPlease run a scan of APIs according to your instructions. Inspect the catalog and documentation, update workspace/catalog/catalog.md and workspace/monitor-log.md with any new findings, and generate reports in workspace/reports/.`;
+
+      const manager = await this.managerForSession(sessionId);
+      this.wake(sessionId);
+      const ack = await manager.sendTurn(sessionId, promptText, {});
+      this.store.updateSession(sessionId, { activityAt: nowIso(), title: "API Scout Scan" });
+
+      const runId = recordBotRun("api-scout", {
+        runId: ack.turnId,
+        sessionId,
+        startedAt: nowIso(),
+        action: "scout_scan",
+        status: ack.status,
+      });
+
+      this.json(res, 200, {
+        ok: true,
+        runId,
+        sessionId,
+        turnId: ack.turnId,
+        session: sessionResult,
+      });
       return true;
     }
     if (method === "POST" && path === "/api/turns") {
@@ -3606,6 +3897,7 @@ export class HeliconServer {
           live.pendingApprovals.add(id);
           changed = true;
           this.wake(sessionId);
+          void this.evaluateApprovalPolicy(sessionId, params).catch(() => undefined);
         }
         break;
       }

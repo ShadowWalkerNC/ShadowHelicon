@@ -1,0 +1,4 @@
+../../../GitHub/MuseAiBots/experiments/MUSE-001/runs/events-ENckwm/scratch/src/types.ts(1,29): error TS1128: Declaration or statement expected.
+../../../GitHub/MuseAiBots/experiments/MUSE-001/runs/events-ENckwm/scratch/src/types.ts(3,20): error TS1005: ',' expected.
+../../../GitHub/MuseAiBots/experiments/MUSE-001/runs/events-ENckwm/scratch/src/types.ts(3,55): error TS1005: ',' expected.
+../../../GitHub/MuseAiBots/experiments/MUSE-001/runs/events-ENckwm/scratch/src/types.ts(3,95): error TS1005: ',' expected.

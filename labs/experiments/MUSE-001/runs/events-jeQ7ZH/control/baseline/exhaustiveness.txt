@@ -1,0 +1,5 @@
+[96mexhaustiveness/events.ts[0m:[93m4[0m:[93m62[0m - [91merror[0m[90m TS2339: [0mProperty 'reason' does not exist on type '{ kind: "paused"; reason: string; } | { kind: "unexpected"; extra: string; }'.
+  Property 'reason' does not exist on type '{ kind: "unexpected"; extra: string; }'.
+
+[7m4[0m  return evt.kind==='active'?'active:'+evt.name:'paused:'+evt.reason;
+[7m [0m [91m                                                             ~~~~~~[0m

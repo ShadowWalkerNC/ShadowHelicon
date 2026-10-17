@@ -6,6 +6,8 @@ export interface Project {
   displayName: string;
   pinned: boolean;
   hidden: boolean;
+  category?: string | null;
+  isPrivate?: boolean;
   createdAt: string;
   updatedAt: string;
   /** Latest activity across the project's visible sessions, or its creation time. */
@@ -238,6 +240,8 @@ const MIGRATIONS: { table: string; column: string; ddl: string }[] = [
   { table: "projects", column: "default_account_id", ddl: "ALTER TABLE projects ADD COLUMN default_account_id TEXT" },
   { table: "sessions", column: "pinned", ddl: "ALTER TABLE sessions ADD COLUMN pinned INTEGER NOT NULL DEFAULT 0" },
   { table: "sessions", column: "side_of", ddl: "ALTER TABLE sessions ADD COLUMN side_of TEXT" },
+  { table: "projects", column: "category", ddl: "ALTER TABLE projects ADD COLUMN category TEXT" },
+  { table: "projects", column: "is_private", ddl: "ALTER TABLE projects ADD COLUMN is_private INTEGER NOT NULL DEFAULT 0" },
 ];
 
 type Row = Record<string, string | number | null>;
@@ -446,15 +450,22 @@ export class HeliconStore {
     return next;
   }
 
-  upsertProject(cwd: string): Project {
+  upsertProject(cwd: string, options?: { displayName?: string; category?: string; isPrivate?: boolean }): Project {
     const now = nowIso();
+    const displayName = options?.displayName ?? displayNameFor(cwd);
+    const category = options?.category ?? null;
+    const isPrivate = options?.isPrivate ? 1 : 0;
     this.db
       .prepare(
-        `INSERT INTO projects (cwd, display_name, pinned, created_at, updated_at)
-         VALUES (?, ?, 0, ?, ?)
-         ON CONFLICT(cwd) DO UPDATE SET updated_at = excluded.updated_at`,
+        `INSERT INTO projects (cwd, display_name, category, is_private, pinned, created_at, updated_at)
+         VALUES (?, ?, ?, ?, 0, ?, ?)
+         ON CONFLICT(cwd) DO UPDATE SET
+           display_name = COALESCE(excluded.display_name, projects.display_name),
+           category = COALESCE(excluded.category, projects.category),
+           is_private = excluded.is_private,
+           updated_at = excluded.updated_at`,
       )
-      .run(cwd, displayNameFor(cwd), now, now);
+      .run(cwd, displayName, category, isPrivate, now, now);
     return this.getProject(cwd) as Project;
   }
 
@@ -856,11 +867,43 @@ export class HeliconStore {
       displayName: String(row["display_name"]),
       pinned: Number(row["pinned"]) === 1,
       hidden: Number(row["hidden"] ?? 0) === 1,
+      category: row["category"] ? String(row["category"]) : null,
+      isPrivate: Number(row["is_private"] ?? 0) === 1,
       createdAt: String(row["created_at"]),
       updatedAt: String(row["updated_at"]),
       activityAt: String(row["activity_at"] ?? row["created_at"]),
       defaultAccountId: row["default_account_id"] === null || row["default_account_id"] === undefined ? null : String(row["default_account_id"]),
     };
+  }
+
+  getJoshPolicyUrl(): string {
+    const row = this.db.prepare(`SELECT value FROM settings WHERE key = 'josh_policy_url'`).get() as Row | undefined;
+    return row ? String(row["value"]) : "";
+  }
+
+  setJoshPolicyUrl(url: string | null): void {
+    if (!url || !url.trim()) {
+      this.db.prepare(`DELETE FROM settings WHERE key = 'josh_policy_url'`).run();
+    } else {
+      this.db
+        .prepare(`INSERT INTO settings (key, value) VALUES ('josh_policy_url', ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value`)
+        .run(url.trim());
+    }
+  }
+
+  getForgeSatchelUrl(): string {
+    const row = this.db.prepare(`SELECT value FROM settings WHERE key = 'forge_satchel_url'`).get() as Row | undefined;
+    return row ? String(row["value"]) : "";
+  }
+
+  setForgeSatchelUrl(url: string | null): void {
+    if (!url || !url.trim()) {
+      this.db.prepare(`DELETE FROM settings WHERE key = 'forge_satchel_url'`).run();
+    } else {
+      this.db
+        .prepare(`INSERT INTO settings (key, value) VALUES ('forge_satchel_url', ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value`)
+        .run(url.trim());
+    }
   }
 
   private toSession(row: Row): SessionRecord {

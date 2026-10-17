@@ -1,0 +1,46 @@
+TAP version 13
+# Subtest: exclusive end
+ok 1 - exclusive end
+  ---
+  duration_ms: 1.0008
+  type: 'test'
+  ...
+# Subtest: negative clamp
+ok 2 - negative clamp
+  ---
+  duration_ms: 0.0984
+  type: 'test'
+  ...
+# Subtest: negative end
+ok 3 - negative end
+  ---
+  duration_ms: 0.069
+  type: 'test'
+  ...
+# Subtest: empty
+ok 4 - empty
+  ---
+  duration_ms: 0.063
+  type: 'test'
+  ...
+# Subtest: large end
+ok 5 - large end
+  ---
+  duration_ms: 0.0859
+  type: 'test'
+  ...
+# Subtest: empty reversed
+ok 6 - empty reversed
+  ---
+  duration_ms: 0.0831
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 10.0996

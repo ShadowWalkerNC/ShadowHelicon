@@ -1,0 +1,40 @@
+{
+  "experimentId": "MUSE-001",
+  "taskId": "slicer",
+  "timestamp": "2026-10-17T10:49:06.626Z",
+  "verificationStatus": "NOT RUN",
+  "verification": {
+    "testsPassed": "NOT RUN",
+    "testsFailedCount": "NOT RUN",
+    "strictTypecheckPassed": "NOT RUN",
+    "staticPassed": "NOT RUN",
+    "checksExecuted": false,
+    "baselineFailed": true,
+    "unauthorizedFiles": []
+  },
+  "metrics": {
+    "changedFiles": [
+      "src/slicer.ts"
+    ],
+    "filesChangedCount": 1,
+    "wallClockSeconds": "unknown",
+    "modelStepsCount": "unknown",
+    "toolCallsCount": "unknown",
+    "retries": "unknown",
+    "rework": "unknown",
+    "tokensPrompt": "unknown",
+    "tokensCompletion": "unknown",
+    "estimatedCostUsd": "unknown"
+  },
+  "provenance": {
+    "fixtureHash": "synthetic-regression",
+    "nodeVersion": "v24.21.0",
+    "compiler": "C:/Users/white/Documents/GitHub/BibleDesk/node_modules/typescript/bin/tsc",
+    "scratchDirectory": "C:\\Users\\white\\Documents\\GitHub\\MuseAiBots\\experiments\\MUSE-001\\runs\\isolation-regression-rvYRtQ\\scratch"
+  },
+  "limitations": [
+    "File hashes observe scratch changes, not a security sandbox or out-of-scratch access monitor.",
+    "No network isolation is enforced by this harness.",
+    "Acceptance PASS alone does not establish agent budget or repeatability thresholds."
+  ]
+}

@@ -1,0 +1,2 @@
+Implement calculateBackoff(attempt:number,baseMs:number,maxMs:number,jitterRatio:number):number. Exact formula Math.min(maxMs,baseMs*2**attempt)*(1+jitterRatio); cap applies BEFORE jitter. All inputs finite; attempt nonnegative integer; baseMs/maxMs nonnegative; jitterRatio in [0,1]. Invalid inputs throw RangeError. Only edit src/backoff.ts.
+Do not add, delete or edit other files. Do not install packages, access secrets or change permissions. Independent tests/typecheck are outside this scratch directory. Stop after implementing the requested source change.

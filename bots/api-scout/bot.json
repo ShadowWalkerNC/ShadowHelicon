@@ -1,0 +1,9 @@
+{
+  "name": "api-scout",
+  "displayName": "API Scout",
+  "avatar": "🔍",
+  "description": "Continuous scanner and cataloger for external and ecosystem APIs, schema versions, endpoints, and health monitoring.",
+  "enabled": true,
+  "schedule": "0 */6 * * *",
+  "tools": ["read_file", "write_file", "web_search", "fetch_url"]
+}

@@ -1,0 +1,48 @@
+{
+  "selftest": "PASS",
+  "timestamp": "2026-10-03T23:03:52.595Z",
+  "nodeVersion": "v24.19.0",
+  "results": [
+    {
+      "taskId": "slicer",
+      "baselineFailures": 3,
+      "reference": "PASS",
+      "rejectBeforeExecution": [
+        "added",
+        "modified",
+        "deleted"
+      ],
+      "run": "C:\\Users\\white\\Documents\\GitHub\\MuseAiBots\\experiments\\MUSE-001\\runs\\slicer-NPArpD"
+    },
+    {
+      "taskId": "backoff",
+      "baselineFailures": 7,
+      "reference": "PASS",
+      "rejectBeforeExecution": [
+        "added",
+        "modified",
+        "deleted"
+      ],
+      "run": "C:\\Users\\white\\Documents\\GitHub\\MuseAiBots\\experiments\\MUSE-001\\runs\\backoff-WsPeHr"
+    },
+    {
+      "taskId": "events",
+      "baselineFailures": 2,
+      "reference": "PASS",
+      "eventVerifierTests": [
+        "reformatted alias and assertNever accepted",
+        "any rejected",
+        "cast rejected",
+        "suppression rejected",
+        "missing exhaustiveness rejected",
+        "removed variant rejected"
+      ],
+      "rejectBeforeExecution": [
+        "added",
+        "modified",
+        "deleted"
+      ],
+      "run": "C:\\Users\\white\\Documents\\GitHub\\MuseAiBots\\experiments\\MUSE-001\\runs\\events-sAVGp7"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "taskId": "backoff",
+  "scratch": "C:\\Users\\white\\Documents\\GitHub\\MuseAiBots\\experiments\\MUSE-001\\runs\\backoff-CoIEfT\\scratch",
+  "before": {
+    "package.json": "a90fc33418afa2b9cbf4768524b021135b965ecdf993457505bfae3ac44a8428",
+    "src/backoff.ts": "013cfd641b4bcbd4dd2b5c4c6788d7a62a53ec4d59180e9c73c2c823aecfc110"
+  },
+  "fixtureHash": "5cbe96c3d9bf783648151461cb86cf2a9c99abe1f6d757528e8e038de02d25e0",
+  "allowed": [
+    "src/backoff.ts"
+  ],
+  "baseline": {
+    "testsPassed": false,
+    "testsFailedCount": 6,
+    "strictTypecheckPassed": true,
+    "staticPassed": true
+  },
+  "createdAt": "2026-10-03T22:54:55.806Z"
+}
