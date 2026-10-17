@@ -13,5 +13,8 @@
   "productionPromotion": "NOT APPROVED",
   "tokens": "unknown",
   "cost": "unknown",
-  "evidence": "test-evidence.txt"
+  "evidence": "test-evidence.txt",
+  "runStatus": "PASS",
+  "wallClockSeconds": 0.061,
+  "lastRun": "2026-10-17T17:19:14.818Z"
 }

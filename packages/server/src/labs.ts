@@ -184,13 +184,21 @@ export async function runExperimentHarness(experimentId: string): Promise<RunHar
     targetScript = join(expDir, "harness.mjs");
   }
   if (!existsSync(targetScript)) {
-    // If there's an implementation or test file
     const tests = readdirSync(expDir).filter((f) => f.endsWith(".test.mjs") || f.endsWith(".mjs"));
     if (tests.length > 0) {
       targetScript = join(expDir, tests[0] as string);
     } else {
-      throw new Error(`No harness or test runner found in ${experimentId}.`);
+      const implDir = join(expDir, "implementation");
+      if (existsSync(implDir)) {
+        const implTests = readdirSync(implDir).filter((f) => f.endsWith(".test.mjs") || f.endsWith(".mjs"));
+        if (implTests.length > 0) {
+          targetScript = join(implDir, implTests[0] as string);
+        }
+      }
     }
+  }
+  if (!existsSync(targetScript)) {
+    throw new Error(`No harness or test runner found in ${experimentId}.`);
   }
 
   const start = Date.now();

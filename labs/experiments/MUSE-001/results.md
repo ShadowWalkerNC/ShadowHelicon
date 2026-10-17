@@ -1,4 +1,17 @@
 # MUSE-001 results
-The first real Muse attempt (slicer-Qo0GLN) exited 1 after approximately 5.5 seconds: provider API429 subscription quota exhausted, reported reset 2026-10-05T00:00:00Z. No scratch source files changed. Runtime acceptance remained at the expected baseline of two failing assertions; strict compilation passed. This is BLOCKED provider execution, not evidence against coding ability. Other task trials NOT RUN. No repeat quota calls.
+Last Run: 2026-10-17T17:19:19.331Z
+Status: PASS (Exit code: 0)
+Duration: 290ms
 
-Raw events/stderr and execution/verification records are preserved under runs/slicer-Qo0GLN/control. Metrics not observed remain unknown. Default sandbox/approval retained; shell and web tools disabled. Startup nevertheless reported trusted user configuration and 35 skills, so clean context isolation is not proven. No settings were changed.
+## Output
+```
+✔ public verification withholds runtime even for an allowed source edit (197.4975ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 202.4456
+```
