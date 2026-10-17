@@ -182,6 +182,14 @@ The interface itself lives in `packages/ui` (state model in `src/model`, compone
 npm run dev --workspace helicon-desktop
 ```
 
+> [!NOTE]
+> **Windows Tauri Build Prerequisites:**
+> Building the standalone native Windows `.exe` installer via Tauri (`npm run tauri build`) requires a native C++ linker on your Windows host. Either:
+> 1. Visual Studio Build Tools (MSVC) with the "Desktop development with C++" workload providing `link.exe`, or
+> 2. MinGW-w64 (`gcc.exe` and `g++`) on your system PATH with the `x86_64-pc-windows-gnu` Rust target.
+> Without MSVC or MinGW installed, run the web application via `npm run serve --workspace @helicon/web` (listening on port 3127), which runs completely standalone on Node.js without requiring a C++ compiler.
+
+
 Releases ride on tags: push `v0.1.0` and the Release workflow builds the Windows installer, then the universal macOS build, then the Linux bundles, and attaches all of them to a GitHub Release. Every release gets a tag; notable merged PRs bump at least the patch version.
 
 The desktop app updates itself from the newest release's `latest.json`, so releases must not be marked prerelease. The installers are signed with the updater key: the workflow reads `TAURI_SIGNING_PRIVATE_KEY` and `TAURI_SIGNING_PRIVATE_KEY_PASSWORD` from repo secrets, and a local `tauri build` needs the same two variables set (or pass `--config '{"bundle":{"createUpdaterArtifacts":false}}'` to skip signing for a local-only build).
