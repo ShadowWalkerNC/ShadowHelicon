@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ShadowHelicon Projects Configuration",
+  "type": "object",
+  "required": ["projects"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "devRoot": { "type": "string" },
+    "projects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "path", "category", "private"],
+        "properties": {
+          "name": { "type": "string" },
+          "path": { "type": "string" },
+          "category": {
+            "type": "string",
+            "enum": [
+              "01 - Developer Intelligence",
+              "02 - CulinaryOS Suite",
+              "03 - Independent Products",
+              "04 - Client & Business Projects",
+              "05 - Shared Engineering",
+              "06 - Platform Operations"
+            ]
+          },
+          "private": { "type": "boolean" }
+        }
+      }
+    }
+  }
+}

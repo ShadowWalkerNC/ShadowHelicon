@@ -6,14 +6,21 @@ This document tracks all customizations made on the `shadowhelicon` branch relat
 
 ## 1. Project Pre-Seed & Dynamic Configuration
 
-- **`projects.config.json`** (New File):
-  - Central configuration file defining 35 pre-seeded developer projects across Personal, Hospitality, Infrastructure, Gaming, and Private categories.
-  - devRoot set to `C:\Users\white\OneDrive\Documents\GitHub\`.
-  - Configurable without code changes.
-- **`packages/server/src/projectsConfig.ts`** (New File):
-  - Resolves `projects.config.json` location and synchronizes configured projects into the local SQLite store.
+- **`projects.config.json`** & **`projects.schema.json`**:
+  - Reconciled with canonical `ECOSYSTEM_REGISTRY.json` from `ShadowWalkerNC/.github`.
+  - Configures all 45 projects across the canonical 6 tiers:
+    1. `01 - Developer Intelligence` (10 projects)
+    2. `02 - CulinaryOS Suite` (9 projects)
+    3. `03 - Independent Products` (18 projects)
+    4. `04 - Client & Business Projects` (4 projects)
+    5. `05 - Shared Engineering` (1 project)
+    6. `06 - Platform Operations` (3 projects)
+  - Enforces schema validation and exact privacy boundaries (5 private projects).
+- **`packages/server/src/projectsConfig.ts`**:
+  - Enhanced `findProjectsConfigFile()` to traverse workspace levels and locate `projects.config.json`.
 - **`packages/server/src/server.ts`**:
-  - Automatically syncs projects on `GET /api/projects` and serves `category` and `isPrivate` flags.
+  - Automatically syncs projects on `GET /api/projects` and serves canonical `category` and `isPrivate` flags.
+  - Resolved Cloudflare Quick Tunnel SSE stream buffering: `serveEvents()` sets `x-accel-buffering: no`, flushes response headers immediately, and emits a 2KB pre-padding comment (`: ` + 2,048 spaces) to prevent edge proxy freezing.
 
 ---
 

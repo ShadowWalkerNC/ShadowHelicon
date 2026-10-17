@@ -2700,3 +2700,164 @@ describe("wire helpers", () => {
     assert.equal(normalizeIso(42), undefined);
   });
 });
+
+describe("SSE buffering & Cloudflare proxy streaming (R2/R3)", () => {
+  it("delivers hello handshake within 1,000ms, sends x-accel-buffering: no, and transmits 2KB padding over loopback", async () => {
+    const fake = new FakeConnection();
+    const { base } = await start(fake);
+
+    const startTime = performance.now();
+    const res = await fetch(`${base}/api/events`);
+
+    assert.equal(res.status, 200);
+    assert.equal(res.headers.get("content-type"), "text/event-stream");
+    assert.equal(res.headers.get("cache-control"), "no-cache");
+    assert.equal(res.headers.get("connection"), "keep-alive");
+    assert.equal(res.headers.get("x-accel-buffering"), "no");
+
+    const reader = res.body!.getReader();
+    const decoder = new TextDecoder();
+    let accumulated = "";
+    let handshakeElapsed = 0;
+    let sawHello = false;
+
+    while (!sawHello) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      accumulated += decoder.decode(value, { stream: true });
+
+      if (accumulated.includes('"type":"hello"')) {
+        handshakeElapsed = performance.now() - startTime;
+        sawHello = true;
+      }
+    }
+    await reader.cancel();
+
+    assert.ok(sawHello, "Must receive 'hello' event");
+    assert.ok(
+      handshakeElapsed < 1000,
+      `Handshake took ${handshakeElapsed.toFixed(1)}ms, must be < 1,000ms`
+    );
+
+    const commentMatch = accumulated.match(/^:\s*([^\n]*)\n/);
+    assert.ok(commentMatch, "Stream must lead with an SSE comment padding block");
+    assert.ok(
+      accumulated.length >= 2048,
+      `Initial stream output must deliver at least 2KB (got ${accumulated.length} bytes)`
+    );
+  });
+
+  it("delivers hello handshake within 1,000ms with simulated Cloudflare proxy headers", async () => {
+    const fake = new FakeConnection();
+    const { base } = await start(fake);
+
+    const startTime = performance.now();
+    const res = await fetch(`${base}/api/events`, {
+      headers: {
+        "x-forwarded-for": "198.51.100.42",
+        "cf-connecting-ip": "198.51.100.42",
+        "cf-ray": "8d3e2109ab7f-DFW",
+        host: "tunnel.trycloudflare.com",
+      },
+    });
+
+    assert.equal(res.status, 200);
+    assert.equal(res.headers.get("x-accel-buffering"), "no");
+
+    const reader = res.body!.getReader();
+    const decoder = new TextDecoder();
+    let accumulated = "";
+    let handshakeElapsed = 0;
+    let sawHello = false;
+
+    while (!sawHello) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      accumulated += decoder.decode(value, { stream: true });
+
+      if (accumulated.includes('"type":"hello"')) {
+        handshakeElapsed = performance.now() - startTime;
+        sawHello = true;
+      }
+    }
+    await reader.cancel();
+
+    assert.ok(sawHello, "Must receive 'hello' event through proxy headers");
+    assert.ok(
+      handshakeElapsed < 1000,
+      `Proxy handshake took ${handshakeElapsed.toFixed(1)}ms, must be < 1,000ms`
+    );
+    assert.ok(
+      accumulated.length >= 2048,
+      `Initial stream output must deliver at least 2KB (got ${accumulated.length} bytes)`
+    );
+  });
+});
+
+describe("Projects API & Canonical 6-Tier Architecture (R1/R3)", () => {
+  it("GET /api/projects returns all 45 canonical projects with accurate categories and privacy flags", async () => {
+    const fake = new FakeConnection();
+    const { base } = await start(fake, { projectsConfig: true });
+
+    const res = await fetch(`${base}/api/projects`);
+    assert.equal(res.status, 200);
+
+    const body = (await res.json()) as {
+      projects: Array<{
+        cwd: string;
+        displayName: string;
+        category: string;
+        isPrivate: boolean;
+        pinned: number;
+        activityAt: number;
+      }>;
+    };
+
+    const projects = body.projects;
+    assert.equal(projects.length, 45, `Expected 45 canonical projects, found ${projects.length}`);
+
+    const canonicalTiers = new Set([
+      "01 - Developer Intelligence",
+      "02 - CulinaryOS Suite",
+      "03 - Independent Products",
+      "04 - Client & Business Projects",
+      "05 - Shared Engineering",
+      "06 - Platform Operations",
+    ]);
+
+    const tierCounts = new Map<string, number>();
+
+    for (const project of projects) {
+      assert.ok(
+        canonicalTiers.has(project.category),
+        `Project '${project.displayName}' has non-canonical category '${project.category}'`
+      );
+      assert.equal(typeof project.isPrivate, "boolean");
+      assert.ok(project.displayName && project.displayName.trim().length > 0);
+      assert.ok(project.cwd && project.cwd.trim().length > 0);
+
+      tierCounts.set(project.category, (tierCounts.get(project.category) ?? 0) + 1);
+    }
+
+    assert.equal(tierCounts.get("01 - Developer Intelligence"), 10, "Tier 01 must have 10 projects");
+    assert.equal(tierCounts.get("02 - CulinaryOS Suite"), 9, "Tier 02 must have 9 projects");
+    assert.equal(tierCounts.get("03 - Independent Products"), 18, "Tier 03 must have 18 projects");
+    assert.equal(tierCounts.get("04 - Client & Business Projects"), 4, "Tier 04 must have 4 projects");
+    assert.equal(tierCounts.get("05 - Shared Engineering"), 1, "Tier 05 must have 1 project");
+    assert.equal(tierCounts.get("06 - Platform Operations"), 3, "Tier 06 must have 3 projects");
+
+    const mosaicBit = projects.find((p) => p.displayName === "MosaicBit");
+    assert.ok(mosaicBit, "MosaicBit must be present");
+    assert.equal(mosaicBit.isPrivate, true, "MosaicBit must be private: true");
+    assert.equal(mosaicBit.category, "03 - Independent Products");
+
+    const privateProjects = projects.filter((p) => p.isPrivate);
+    assert.equal(privateProjects.length, 5, `Expected 5 private projects, found ${privateProjects.length}`);
+    const privateNames = new Set(privateProjects.map((p) => p.displayName));
+    assert.deepEqual(
+      Array.from(privateNames).sort(),
+      ["Dominion", "ForgeSatchel", "JOSH", "MosaicBit", "cheezies-gourmet"].sort()
+    );
+  });
+});
+

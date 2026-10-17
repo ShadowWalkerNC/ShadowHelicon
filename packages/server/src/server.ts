@@ -193,6 +193,11 @@ export interface ServerOptions {
   shellRunner?: ShellRunner;
   /** Spawns `muse login` for the device-code route; a thin wrapper over `node:child_process` spawn by default. */
   loginSpawn?: LoginSpawn;
+  /**
+   * Whether to sync projects from projects.config.json. Defaults to true for persistent stores (dataDir !== ":memory:").
+   * Can also be a custom file path string.
+   */
+  projectsConfig?: boolean | string;
 }
 
 interface ManagedHost {
@@ -752,6 +757,8 @@ export class HeliconServer {
   private readonly server: Server;
   private readonly store: HeliconStore;
   private readonly aonia: Aonia;
+  private readonly projectsConfigPath?: string;
+  private readonly syncProjectsEnabled: boolean;
   private readonly hosts = new Map<string, ManagedHost>();
   private readonly starting = new Map<string, Promise<ManagedHost>>();
   /** Restarts queued by a settings flip, oldest first. Hosts are only acquired past the tail. */
@@ -815,6 +822,7 @@ export class HeliconServer {
       | "aonia"
       | "loginSpawn"
       | "tailTiming"
+      | "projectsConfig"
     >
   > &
     Pick<ServerOptions, "staticDir" | "token" | "findNativeMuse"> & {
@@ -852,6 +860,11 @@ export class HeliconServer {
       shellRunner: options.shellRunner ?? ((command, args) => runCapture(command, args, undefined, SHELL_TIMEOUT_MS)),
       loginSpawn: options.loginSpawn ?? defaultLoginSpawn,
     };
+    this.projectsConfigPath = typeof options.projectsConfig === "string" ? options.projectsConfig : undefined;
+    this.syncProjectsEnabled =
+      options.projectsConfig !== undefined
+        ? Boolean(options.projectsConfig)
+        : (options.dataDir ?? ":memory:") !== ":memory:";
     this.opener = options.opener ?? defaultOpener(this.options.platform);
     this.tail = new ViewTail(
       {
@@ -881,7 +894,9 @@ export class HeliconServer {
 
   async listen(): Promise<{ port: number; host: string }> {
     await new Promise<void>((resolve) => this.server.listen(this.options.port, this.options.host, resolve));
-    syncProjectsFromConfig(this.store);
+    if (this.syncProjectsEnabled) {
+      syncProjectsFromConfig(this.store, this.projectsConfigPath);
+    }
     const forgeUrl = this.store.getForgeSatchelUrl();
     if (forgeUrl) {
       void this.registerForgeSatchel(forgeUrl);
@@ -1264,7 +1279,9 @@ export class HeliconServer {
       return true;
     }
     if (method === "GET" && path === "/api/projects") {
-      syncProjectsFromConfig(this.store);
+      if (this.syncProjectsEnabled) {
+        syncProjectsFromConfig(this.store, this.projectsConfigPath);
+      }
       this.json(res, 200, {
         projects: this.store.listProjects().map((p) => ({
           cwd: p.cwd,
@@ -2229,7 +2246,11 @@ export class HeliconServer {
       "content-type": "text/event-stream",
       "cache-control": "no-cache",
       connection: "keep-alive",
+      "x-accel-buffering": "no",
     });
+    res.flushHeaders?.();
+    res.write(": " + " ".repeat(2048) + "\n\n");
+
     const sink: SseSink = (event, data) => {
       if (res.writableEnded) {
         this.sinks.delete(sink);

@@ -22,6 +22,8 @@ export function findProjectsConfigFile(customPath?: string): string | null {
   const candidates = [
     customPath,
     join(process.cwd(), "projects.config.json"),
+    resolve(process.cwd(), "../../projects.config.json"),
+    resolve(currentDir, "../../../../projects.config.json"),
     resolve(currentDir, "../../../projects.config.json"),
     resolve(currentDir, "../../projects.config.json"),
     join(homedir(), ".helicon", "projects.config.json"),

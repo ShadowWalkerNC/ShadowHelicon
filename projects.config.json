@@ -3,214 +3,274 @@
   "devRoot": "C:\\Users\\white\\OneDrive\\Documents\\GitHub",
   "projects": [
     {
-      "name": "CulinaryOS",
-      "path": "CulinaryOS",
-      "category": "Food & Hospitality",
-      "private": false
-    },
-    {
-      "name": "CulinaryOps",
-      "path": "CulinaryOps",
-      "category": "Food & Hospitality",
-      "private": false
-    },
-    {
-      "name": "KitchenKit",
-      "path": "KitchenKit",
-      "category": "Food & Hospitality",
-      "private": false
-    },
-    {
-      "name": "RecipeOS",
-      "path": "RecipeOS",
-      "category": "Food & Hospitality",
-      "private": false
-    },
-    {
-      "name": "RestRevive-AI",
-      "path": "RestRevive-AI",
-      "category": "Food & Hospitality",
-      "private": false
-    },
-    {
-      "name": "ShorelineOps",
-      "path": "ShorelineOps",
-      "category": "Healthcare & Senior Living",
-      "private": false
-    },
-    {
-      "name": "BibleDesk",
-      "path": "BibleDesk",
-      "category": "Faith & AI Study",
-      "private": false
-    },
-    {
-      "name": "prayer-atlas",
-      "path": "prayer-atlas",
-      "category": "Faith & AI Study",
-      "private": false
-    },
-    {
-      "name": "Post-Pilot",
-      "path": "Post-Pilot",
-      "category": "Marketing & Social",
-      "private": false
-    },
-    {
-      "name": "Emergency-CAD",
-      "path": "Emergency-CAD",
-      "category": "CAD & Public Safety",
-      "private": false
-    },
-    {
-      "name": "EMSCAD",
-      "path": "EMSCAD",
-      "category": "CAD & Public Safety",
-      "private": false
-    },
-    {
-      "name": "Mercury",
-      "path": "Mercury",
-      "category": "Communication & Social",
-      "private": false
-    },
-    {
-      "name": "Plated",
-      "path": "Plated",
-      "category": "Web & CMS",
-      "private": false
-    },
-    {
-      "name": "MosaicBit",
-      "path": "MosaicBit",
-      "category": "Computer Vision & Art",
-      "private": false
-    },
-    {
-      "name": "BedrockOps",
-      "path": "BedrockOps",
-      "category": "Gaming & Minecraft",
-      "private": false
-    },
-    {
-      "name": "node-minecraft-protocol",
-      "path": "node-minecraft-protocol",
-      "category": "Gaming & Minecraft",
-      "private": false
-    },
-    {
-      "name": "ShieldBot",
-      "path": "ShieldBot",
-      "category": "Gaming & Minecraft",
-      "private": false
-    },
-    {
-      "name": "Unity-MC",
-      "path": "Unity-MC",
-      "category": "Gaming & Minecraft",
-      "private": false
-    },
-    {
-      "name": "openDAW",
-      "path": "openDAW",
-      "category": "Creative & Audio",
-      "private": false
-    },
-    {
-      "name": "ASCILINE-2.0",
-      "path": "ASCILINE-2.0",
-      "category": "Creative & Graphics",
-      "private": false
-    },
-    {
-      "name": "Sigil",
-      "path": "Sigil",
-      "category": "Creative & Graphics",
-      "private": false
-    },
-    {
-      "name": "portfolio",
-      "path": "portfolio",
-      "category": "Web & Portfolio",
-      "private": false
-    },
-    {
-      "name": "ShadowRealm",
-      "path": "ShadowRealm",
-      "category": "AI Workspace",
+      "name": "AI CLIs Workspace",
+      "path": "C:\\Users\\white\\Desktop\\AI-CLIs",
+      "category": "01 - Developer Intelligence",
       "private": false
     },
     {
       "name": "cloudflare-os",
       "path": "cloudflare-os",
-      "category": "Cloud & Agents",
+      "category": "01 - Developer Intelligence",
       "private": false
-    },
-    {
-      "name": "Joes-Tacos",
-      "path": "Joes-Tacos",
-      "category": "Client Demos",
-      "private": false
-    },
-    {
-      "name": "Benjamins",
-      "path": "Benjamins",
-      "category": "Client Demos",
-      "private": false
-    },
-    {
-      "name": "open-saas",
-      "path": "open-saas",
-      "category": "Templates & Starters",
-      "private": false
-    },
-    {
-      "name": "openship",
-      "path": "openship",
-      "category": "DevOps & Cloud",
-      "private": false
-    },
-    {
-      "name": "playhtml",
-      "path": "playhtml",
-      "category": "Web UI",
-      "private": false
-    },
-    {
-      "name": "playwright",
-      "path": "playwright",
-      "category": "Testing & Automation",
-      "private": false
-    },
-    {
-      "name": "MuseLab",
-      "path": "C:\\Users\\white\\Documents\\GitHub\\MuseAiBots",
-      "category": "R&D & Agents",
-      "private": false
-    },
-    {
-      "name": "cheezies-gourmet",
-      "path": "C:\\Users\\white\\Documents\\GitHub\\cheezies-gourmet",
-      "category": "Private Projects",
-      "private": true
     },
     {
       "name": "ForgeSatchel",
       "path": "C:\\Users\\white\\Desktop\\ForgeSatchel",
-      "category": "Private Projects",
+      "category": "01 - Developer Intelligence",
       "private": true
     },
     {
       "name": "JOSH",
       "path": "C:\\Users\\white\\Desktop\\Josh",
-      "category": "Private Projects",
+      "category": "01 - Developer Intelligence",
       "private": true
+    },
+    {
+      "name": "Muse Code SDK",
+      "path": "C:\\Users\\white\\Documents\\GitHub\\muse-code-sdk",
+      "category": "01 - Developer Intelligence",
+      "private": false
+    },
+    {
+      "name": "Muse Gadget SDK",
+      "path": "C:\\Users\\white\\Documents\\GitHub\\muse-gadget-sdk",
+      "category": "01 - Developer Intelligence",
+      "private": false
+    },
+    {
+      "name": "MuseLab",
+      "path": "C:\\Users\\white\\Documents\\GitHub\\MuseAiBots",
+      "category": "01 - Developer Intelligence",
+      "private": false
+    },
+    {
+      "name": "ShadowHelicon",
+      "path": "ShadowHelicon",
+      "category": "01 - Developer Intelligence",
+      "private": false
+    },
+    {
+      "name": "ShadowRealm",
+      "path": "ShadowRealm",
+      "category": "01 - Developer Intelligence",
+      "private": false
+    },
+    {
+      "name": "System One Engine",
+      "path": "C:\\Users\\white\\Documents\\system-one",
+      "category": "01 - Developer Intelligence",
+      "private": false
+    },
+    {
+      "name": "CulinaryOps",
+      "path": "CulinaryOps",
+      "category": "02 - CulinaryOS Suite",
+      "private": false
+    },
+    {
+      "name": "CulinaryOS",
+      "path": "C:\\Users\\white\\Documents\\GitHub\\CulinaryOS",
+      "category": "02 - CulinaryOS Suite",
+      "private": false
+    },
+    {
+      "name": "CulinaryOS Intelligence",
+      "path": "C:\\Users\\white\\Desktop\\CulinaryOS Addons\\culinaryos-intelligence",
+      "category": "02 - CulinaryOS Suite",
+      "private": false
+    },
+    {
+      "name": "KitchenKit",
+      "path": "KitchenKit",
+      "category": "02 - CulinaryOS Suite",
+      "private": false
+    },
+    {
+      "name": "Plated",
+      "path": "Plated",
+      "category": "02 - CulinaryOS Suite",
+      "private": false
+    },
+    {
+      "name": "Post-Pilot",
+      "path": "C:\\Users\\white\\Documents\\GitHub\\Post-Pilot",
+      "category": "02 - CulinaryOS Suite",
+      "private": false
+    },
+    {
+      "name": "RecipeOS",
+      "path": "RecipeOS",
+      "category": "02 - CulinaryOS Suite",
+      "private": false
+    },
+    {
+      "name": "RestRevive-AI",
+      "path": "RestRevive-AI",
+      "category": "02 - CulinaryOS Suite",
+      "private": false
+    },
+    {
+      "name": "ShorelineOps",
+      "path": "C:\\Users\\white\\Documents\\GitHub\\ShorelineOps",
+      "category": "02 - CulinaryOS Suite",
+      "private": false
+    },
+    {
+      "name": "ASCILINE-2.0",
+      "path": "ASCILINE-2.0",
+      "category": "03 - Independent Products",
+      "private": false
+    },
+    {
+      "name": "BedrockOps",
+      "path": "BedrockOps",
+      "category": "03 - Independent Products",
+      "private": false
+    },
+    {
+      "name": "BibleDesk",
+      "path": "C:\\Users\\white\\Documents\\GitHub\\BibleDesk",
+      "category": "03 - Independent Products",
+      "private": false
     },
     {
       "name": "Dominion",
       "path": "C:\\Users\\white\\Desktop\\Dominion",
-      "category": "Private Projects",
+      "category": "03 - Independent Products",
       "private": true
+    },
+    {
+      "name": "Emergency-CAD",
+      "path": "Emergency-CAD",
+      "category": "03 - Independent Products",
+      "private": false
+    },
+    {
+      "name": "EMSCAD",
+      "path": "EMSCAD",
+      "category": "03 - Independent Products",
+      "private": false
+    },
+    {
+      "name": "Mercury",
+      "path": "C:\\Users\\white\\Documents\\GitHub\\Mercury",
+      "category": "03 - Independent Products",
+      "private": false
+    },
+    {
+      "name": "MosaicBit",
+      "path": "MosaicBit",
+      "category": "03 - Independent Products",
+      "private": true
+    },
+    {
+      "name": "node-minecraft-protocol",
+      "path": "node-minecraft-protocol",
+      "category": "03 - Independent Products",
+      "private": false
+    },
+    {
+      "name": "open-saas",
+      "path": "open-saas",
+      "category": "03 - Independent Products",
+      "private": false
+    },
+    {
+      "name": "openDAW",
+      "path": "openDAW",
+      "category": "03 - Independent Products",
+      "private": false
+    },
+    {
+      "name": "openship",
+      "path": "openship",
+      "category": "03 - Independent Products",
+      "private": false
+    },
+    {
+      "name": "playhtml",
+      "path": "playhtml",
+      "category": "03 - Independent Products",
+      "private": false
+    },
+    {
+      "name": "playwright",
+      "path": "playwright",
+      "category": "03 - Independent Products",
+      "private": false
+    },
+    {
+      "name": "prayer-atlas",
+      "path": "prayer-atlas",
+      "category": "03 - Independent Products",
+      "private": false
+    },
+    {
+      "name": "ShieldBot",
+      "path": "ShieldBot",
+      "category": "03 - Independent Products",
+      "private": false
+    },
+    {
+      "name": "Sigil",
+      "path": "Sigil",
+      "category": "03 - Independent Products",
+      "private": false
+    },
+    {
+      "name": "Unity-MC",
+      "path": "Unity-MC",
+      "category": "03 - Independent Products",
+      "private": false
+    },
+    {
+      "name": "Benjamins",
+      "path": "Benjamins",
+      "category": "04 - Client & Business Projects",
+      "private": false
+    },
+    {
+      "name": "cheezies-gourmet",
+      "path": "C:\\Users\\white\\Documents\\GitHub\\cheezies-gourmet",
+      "category": "04 - Client & Business Projects",
+      "private": true
+    },
+    {
+      "name": "dark-phoneix-clips",
+      "path": "C:\\Users\\white\\Desktop\\Ryan",
+      "category": "04 - Client & Business Projects",
+      "private": false
+    },
+    {
+      "name": "Joes-Tacos",
+      "path": "Joes-Tacos",
+      "category": "04 - Client & Business Projects",
+      "private": false
+    },
+    {
+      "name": "ScriptC",
+      "path": "C:\\Users\\white\\Desktop\\ScriptC\\scriptc",
+      "category": "05 - Shared Engineering",
+      "private": false
+    },
+    {
+      "name": ".github",
+      "path": "C:\\Users\\white\\Documents\\GitHub\\.github",
+      "category": "06 - Platform Operations",
+      "private": false
+    },
+    {
+      "name": "portfolio",
+      "path": "portfolio",
+      "category": "06 - Platform Operations",
+      "private": false
+    },
+    {
+      "name": "ShadowWalkerNC",
+      "path": "ShadowWalkerNC",
+      "category": "06 - Platform Operations",
+      "private": false
     }
   ]
 }
